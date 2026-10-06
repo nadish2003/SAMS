@@ -15,7 +15,17 @@ public class MainController {
 
     @FXML
     private void handleOpenLogin(ActionEvent event) {
-        // Placeholder – login screen will be added in a later phase
-        System.out.println("Open Login clicked – login screen not yet implemented");
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+            javafx.scene.Parent root = loader.load();
+            javafx.stage.Stage stage = (javafx.stage.Stage) openLoginBtn.getScene().getWindow();
+            javafx.scene.Scene scene = new javafx.scene.Scene(root, 600, 450);
+            scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setTitle("SAMS - Login");
+            stage.show();
+        } catch (java.io.IOException e) {
+            System.err.println("Error opening login screen: " + e.getMessage());
+        }
     }
 }
