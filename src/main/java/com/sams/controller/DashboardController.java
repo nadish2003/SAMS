@@ -97,7 +97,18 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void handleCourses(ActionEvent event) {
-        statusLabel.setText("Course Management module: Coming soon.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/courses.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 900, 600);
+            scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setTitle("SAMS - Course & Subject Management");
+            stage.show();
+        } catch (IOException e) {
+            statusLabel.setText("Error loading courses screen: " + e.getMessage());
+        }
     }
 
     @FXML

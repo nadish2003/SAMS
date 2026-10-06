@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.sams.controller.CourseController"
+            styleClass="root-pane"
+            prefWidth="900" prefHeight="600">
+
+    <!-- Top Bar -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="top-bar">
+            <Label text="SAMS — Course &amp; Subject Management" styleClass="top-bar-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="← Back to Dashboard" styleClass="secondary-button" onAction="#handleBackToDashboard"/>
+        </HBox>
+    </top>
+
+    <!-- Center Content: Two Columns -->
+    <center>
+        <HBox spacing="20">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <!-- Left: Courses Section -->
+            <VBox spacing="12" HBox.hgrow="ALWAYS" styleClass="card-pane">
+                <Label text="Course Management" styleClass="heading-label" style="-fx-font-size: 16px;"/>
+
+                <HBox spacing="10">
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="Course Code" styleClass="form-label"/>
+                        <TextField fx:id="courseCodeField" promptText="e.g. HND-SE"/>
+                    </VBox>
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="Course Name" styleClass="form-label"/>
+                        <TextField fx:id="courseNameField" promptText="e.g. Software Engineering"/>
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="8">
+                    <Button fx:id="saveCourseBtn" text="Add Course" styleClass="primary-button" onAction="#handleSaveCourse"/>
+                    <Button fx:id="updateCourseBtn" text="Update" styleClass="secondary-button" onAction="#handleUpdateCourse"/>
+                    <Button fx:id="deleteCourseBtn" text="Delete" styleClass="danger-button" onAction="#handleDeleteCourse"/>
+                    <Button fx:id="clearCourseBtn" text="Clear" styleClass="secondary-button" onAction="#handleClearCourse"/>
+                </HBox>
+
+                <TableView fx:id="courseTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="courseIdCol" text="ID" prefWidth="50"/>
+                        <TableColumn fx:id="courseCodeCol" text="Code" prefWidth="90"/>
+                        <TableColumn fx:id="courseNameCol" text="Name" prefWidth="250"/>
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <!-- Right: Subjects Section -->
+            <VBox spacing="12" HBox.hgrow="ALWAYS" styleClass="card-pane">
+                <Label text="Associated Subjects" styleClass="heading-label" style="-fx-font-size: 16px;"/>
+                <Label fx:id="selectedCourseLabel" text="Select a course to view and manage subjects"
+                       style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+
+                <HBox spacing="10">
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="Subject Code" styleClass="form-label"/>
+                        <TextField fx:id="subjectCodeField" promptText="e.g. OOP"/>
+                    </VBox>
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="Subject Name" styleClass="form-label"/>
+                        <TextField fx:id="subjectNameField" promptText="e.g. Object-Oriented Programming"/>
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="8">
+                    <Button fx:id="addSubjectBtn" text="Add Subject" styleClass="primary-button" onAction="#handleAddSubject"/>
+                    <Button fx:id="deleteSubjectBtn" text="Delete Subject" styleClass="danger-button" onAction="#handleDeleteSubject"/>
+                </HBox>
+
+                <TableView fx:id="subjectTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="subjectIdCol" text="ID" prefWidth="50"/>
+                        <TableColumn fx:id="subjectCodeCol" text="Code" prefWidth="90"/>
+                        <TableColumn fx:id="subjectNameCol" text="Name" prefWidth="250"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </HBox>
+    </center>
+
+    <!-- Bottom: Status / Message bar -->
+    <bottom>
+        <HBox alignment="CENTER_LEFT" style="-fx-padding: 8 20 8 20; -fx-background-color: #ecf0f1;">
+            <Label fx:id="messageLabel" text="Ready"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
