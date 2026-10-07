@@ -161,7 +161,18 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void handleAttendance(ActionEvent event) {
-        statusLabel.setText("Attendance Marking module: Coming soon.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/attendance.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 980, 640);
+            scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setTitle("SAMS - Attendance Marking");
+            stage.show();
+        } catch (IOException e) {
+            statusLabel.setText("Error loading attendance marking screen: " + e.getMessage());
+        }
     }
 
     @FXML
