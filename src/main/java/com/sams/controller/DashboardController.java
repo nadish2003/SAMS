@@ -145,7 +145,18 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void handleClasses(ActionEvent event) {
-        statusLabel.setText("Class Scheduling module: Coming soon.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/classes.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 980, 640);
+            scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setTitle("SAMS - Class Scheduling");
+            stage.show();
+        } catch (IOException e) {
+            statusLabel.setText("Error loading class scheduling screen: " + e.getMessage());
+        }
     }
 
     @FXML
