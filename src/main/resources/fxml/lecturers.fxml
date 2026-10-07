@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.sams.controller.LecturerController"
+            styleClass="root-pane"
+            prefWidth="980" prefHeight="620">
+
+    <!-- Top Bar -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="top-bar">
+            <Label text="SAMS — Lecturer Management" styleClass="top-bar-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="← Back to Dashboard" styleClass="secondary-button" onAction="#handleBackToDashboard"/>
+        </HBox>
+    </top>
+
+    <!-- Center Content: Two Columns -->
+    <center>
+        <HBox spacing="15">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+
+            <!-- Left: Lecturer Profile & CRUD -->
+            <VBox spacing="10" HBox.hgrow="ALWAYS" prefWidth="560">
+                <!-- Lecturer Form -->
+                <VBox spacing="8" styleClass="card-pane">
+                    <Label text="Lecturer Details" styleClass="heading-label" style="-fx-font-size: 15px;"/>
+
+                    <HBox spacing="10">
+                        <VBox spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="Full Name *" styleClass="form-label"/>
+                            <TextField fx:id="nameField" promptText="e.g. Dr. Amal Perera"/>
+                        </VBox>
+                        <VBox spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="Email Address" styleClass="form-label"/>
+                            <TextField fx:id="emailField" promptText="e.g. amal@sams.lk"/>
+                        </VBox>
+                        <VBox spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="Phone Number" styleClass="form-label"/>
+                            <TextField fx:id="phoneField" promptText="e.g. 0771234567"/>
+                        </VBox>
+                    </HBox>
+
+                    <HBox spacing="10">
+                        <VBox spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="Username (Login) *" styleClass="form-label"/>
+                            <TextField fx:id="usernameField" promptText="e.g. amal_p"/>
+                        </VBox>
+                        <VBox spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="Password *" styleClass="form-label"/>
+                            <PasswordField fx:id="passwordField" promptText="Set initial password"/>
+                        </VBox>
+                    </HBox>
+
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Button fx:id="addLecturerBtn" text="Add Lecturer" styleClass="primary-button" onAction="#handleAddLecturer"/>
+                        <Button fx:id="updateLecturerBtn" text="Update" styleClass="secondary-button" onAction="#handleUpdateLecturer"/>
+                        <Button fx:id="deleteLecturerBtn" text="Delete" styleClass="danger-button" onAction="#handleDeleteLecturer"/>
+                        <Button fx:id="clearBtn" text="Clear Form" styleClass="secondary-button" onAction="#handleClearForm"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Lecturers Table -->
+                <VBox spacing="6" VBox.vgrow="ALWAYS" styleClass="card-pane">
+                    <Label text="Faculty Roster" styleClass="heading-label" style="-fx-font-size: 15px;"/>
+                    <TableView fx:id="lecturerTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="idCol" text="ID" prefWidth="45"/>
+                            <TableColumn fx:id="nameCol" text="Name" prefWidth="160"/>
+                            <TableColumn fx:id="emailCol" text="Email" prefWidth="150"/>
+                            <TableColumn fx:id="phoneCol" text="Phone" prefWidth="110"/>
+                            <TableColumn fx:id="usernameCol" text="Username" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </VBox>
+
+            <!-- Right: Subject Assignment -->
+            <VBox spacing="10" HBox.hgrow="ALWAYS" prefWidth="380" styleClass="card-pane">
+                <Label text="Subject Assignments" styleClass="heading-label" style="-fx-font-size: 15px;"/>
+                <Label fx:id="selectedLecturerLabel" text="Select a lecturer to manage assigned subjects"
+                       style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+
+                <VBox spacing="4">
+                    <Label text="Available Subjects" styleClass="form-label"/>
+                    <HBox spacing="8">
+                        <ComboBox fx:id="availableSubjectComboBox" promptText="Select Subject" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        <Button fx:id="assignSubjectBtn" text="Assign" styleClass="primary-button" onAction="#handleAssignSubject"/>
+                    </HBox>
+                </VBox>
+
+                <Label text="Currently Assigned:" styleClass="form-label"/>
+                <TableView fx:id="assignedSubjectTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="subCodeCol" text="Code" prefWidth="75"/>
+                        <TableColumn fx:id="subNameCol" text="Subject Name" prefWidth="160"/>
+                        <TableColumn fx:id="subCourseCol" text="Course" prefWidth="120"/>
+                    </columns>
+                </TableView>
+
+                <Button fx:id="unassignSubjectBtn" text="Remove Selected Assignment" styleClass="danger-button" onAction="#handleUnassignSubject"/>
+            </VBox>
+        </HBox>
+    </center>
+
+    <!-- Bottom Status Bar -->
+    <bottom>
+        <HBox alignment="CENTER_LEFT" style="-fx-padding: 8 20 8 20; -fx-background-color: #ecf0f1;">
+            <Label fx:id="messageLabel" text="Ready"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
