@@ -113,7 +113,18 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void handleStudents(ActionEvent event) {
-        statusLabel.setText("Student Management module: Coming soon.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/students.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 950, 620);
+            scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setTitle("SAMS - Student Management");
+            stage.show();
+        } catch (IOException e) {
+            statusLabel.setText("Error loading students screen: " + e.getMessage());
+        }
     }
 
     @FXML
