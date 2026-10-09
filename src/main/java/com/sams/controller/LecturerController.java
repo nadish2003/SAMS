@@ -235,7 +235,11 @@ public class LecturerController implements Initializable {
                 clearForm();
                 loadLecturers();
             } catch (SQLException e) {
-                showError("Cannot delete lecturer: " + e.getMessage());
+                if (e.getMessage() != null && e.getMessage().toLowerCase().contains("foreign key")) {
+                    showError("Cannot delete lecturer: Scheduled classes depend on this lecturer.");
+                } else {
+                    showError("Cannot delete lecturer: " + e.getMessage());
+                }
             }
         }
     }

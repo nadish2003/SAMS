@@ -37,18 +37,35 @@ public class ClassSessionService {
 
     public void scheduleSession(int courseId, int subjectId, int lecturerId, LocalDate date, LocalTime time) throws SQLException {
         validateScheduleInput(courseId, subjectId, lecturerId, date, time);
+        checkLecturerConflict(0, lecturerId, date, time);
+
         ClassSession session = new ClassSession(courseId, subjectId, lecturerId, date, time);
         classSessionDAO.create(session);
     }
 
     public void updateSession(int id, int courseId, int subjectId, int lecturerId, LocalDate date, LocalTime time) throws SQLException {
         validateScheduleInput(courseId, subjectId, lecturerId, date, time);
+        checkLecturerConflict(id, lecturerId, date, time);
+
         ClassSession session = new ClassSession(id, courseId, subjectId, lecturerId, date, time);
         classSessionDAO.update(session);
     }
 
     public void deleteSession(int id) throws SQLException {
         classSessionDAO.delete(id);
+    }
+
+    private void checkLecturerConflict(int sessionId, int lecturerId, LocalDate date, LocalTime time) throws SQLException {
+        List<ClassSession> lecturerSessions = classSessionDAO.findByLecturerId(lecturerId);
+        for (ClassSession existing : lecturerSessions) {
+            if (existing.getId() != sessionId &&
+                existing.getSessionDate().equals(date) &&
+                existing.getSessionTime().equals(time)) {
+                throw new IllegalArgumentException(
+                    "Scheduling conflict: The lecturer is already scheduled for a class on " + date + " at " + time + "."
+                );
+            }
+        }
     }
 
     private void validateScheduleInput(int courseId, int subjectId, int lecturerId, LocalDate date, LocalTime time) {

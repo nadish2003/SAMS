@@ -204,7 +204,11 @@ public class StudentController implements Initializable {
                 clearForm();
                 loadStudents();
             } catch (SQLException e) {
-                showError("Cannot delete student: " + e.getMessage());
+                if (e.getMessage() != null && e.getMessage().toLowerCase().contains("foreign key")) {
+                    showError("Cannot delete student: Attendance records are linked to this student.");
+                } else {
+                    showError("Cannot delete student: " + e.getMessage());
+                }
             }
         }
     }

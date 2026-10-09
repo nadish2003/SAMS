@@ -34,7 +34,14 @@ public class StudentService {
     }
 
     public void addStudent(String name, String regNo, int courseId, String email, String phone) throws SQLException {
-        validateStudentInput(name, regNo, courseId);
+        validateStudentInput(name, regNo, courseId, email, phone);
+
+        // Duplicate registration number check
+        Student existing = studentDAO.findByRegistrationNumber(regNo.trim().toUpperCase());
+        if (existing != null) {
+            throw new IllegalArgumentException("A student with registration number '" + regNo.trim().toUpperCase() + "' is already registered.");
+        }
+
         Student student = new Student(
             name.trim(),
             regNo.trim().toUpperCase(),
@@ -46,7 +53,14 @@ public class StudentService {
     }
 
     public void updateStudent(int id, String name, String regNo, int courseId, String email, String phone) throws SQLException {
-        validateStudentInput(name, regNo, courseId);
+        validateStudentInput(name, regNo, courseId, email, phone);
+
+        // Check if new registration number is taken by another student
+        Student existing = studentDAO.findByRegistrationNumber(regNo.trim().toUpperCase());
+        if (existing != null && existing.getId() != id) {
+            throw new IllegalArgumentException("Registration number '" + regNo.trim().toUpperCase() + "' is already used by another student.");
+        }
+
         Student student = new Student(
             id,
             name.trim(),
@@ -62,7 +76,7 @@ public class StudentService {
         studentDAO.delete(id);
     }
 
-    private void validateStudentInput(String name, String regNo, int courseId) {
+    private void validateStudentInput(String name, String regNo, int courseId, String email, String phone) {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Student name cannot be empty.");
         }
@@ -71,6 +85,16 @@ public class StudentService {
         }
         if (courseId <= 0) {
             throw new IllegalArgumentException("Please select an enrolled course.");
+        }
+        if (email != null && !email.trim().isEmpty()) {
+            if (!email.contains("@") || !email.contains(".")) {
+                throw new IllegalArgumentException("Invalid email format (e.g. student@example.com).");
+            }
+        }
+        if (phone != null && !phone.trim().isEmpty()) {
+            if (!phone.trim().matches("^[0-9+\\-\\s]{7,15}$")) {
+                throw new IllegalArgumentException("Invalid phone number format.");
+            }
         }
     }
 }

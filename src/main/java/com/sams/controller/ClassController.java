@@ -285,7 +285,11 @@ public class ClassController implements Initializable {
                 clearForm();
                 loadSessions();
             } catch (SQLException e) {
-                showError("Cannot delete session: " + e.getMessage());
+                if (e.getMessage() != null && e.getMessage().toLowerCase().contains("foreign key")) {
+                    showError("Cannot delete session: Attendance records have already been marked for this class.");
+                } else {
+                    showError("Cannot delete session: " + e.getMessage());
+                }
             }
         }
     }

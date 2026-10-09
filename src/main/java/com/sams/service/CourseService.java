@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * CourseService – provides business logic for Course and Subject management.
+ * CourseService – provides business logic and validation for Course and Subject management.
  */
 public class CourseService {
 
@@ -43,6 +43,13 @@ public class CourseService {
         if (code == null || code.trim().isEmpty()) {
             throw new IllegalArgumentException("Course code cannot be empty.");
         }
+
+        // Duplicate code check
+        Course existing = courseDAO.findByCode(code.trim().toUpperCase());
+        if (existing != null) {
+            throw new IllegalArgumentException("Course code '" + code.trim().toUpperCase() + "' already exists.");
+        }
+
         Course course = new Course(name.trim(), code.trim().toUpperCase());
         courseDAO.create(course);
     }
@@ -54,6 +61,13 @@ public class CourseService {
         if (code == null || code.trim().isEmpty()) {
             throw new IllegalArgumentException("Course code cannot be empty.");
         }
+
+        // Check if code is taken by another course
+        Course existing = courseDAO.findByCode(code.trim().toUpperCase());
+        if (existing != null && existing.getId() != id) {
+            throw new IllegalArgumentException("Course code '" + code.trim().toUpperCase() + "' is already used by another course.");
+        }
+
         Course course = new Course(id, name.trim(), code.trim().toUpperCase());
         courseDAO.update(course);
     }
@@ -82,6 +96,15 @@ public class CourseService {
         if (courseId <= 0) {
             throw new IllegalArgumentException("Please select a valid course.");
         }
+
+        // Check existing subjects for duplicate code
+        List<Subject> all = subjectDAO.findAll();
+        for (Subject s : all) {
+            if (s.getCode().equalsIgnoreCase(code.trim())) {
+                throw new IllegalArgumentException("Subject code '" + code.trim().toUpperCase() + "' already exists.");
+            }
+        }
+
         Subject subject = new Subject(name.trim(), code.trim().toUpperCase(), courseId);
         subjectDAO.create(subject);
     }
@@ -96,6 +119,14 @@ public class CourseService {
         if (courseId <= 0) {
             throw new IllegalArgumentException("Please select a valid course.");
         }
+
+        List<Subject> all = subjectDAO.findAll();
+        for (Subject s : all) {
+            if (s.getCode().equalsIgnoreCase(code.trim()) && s.getId() != id) {
+                throw new IllegalArgumentException("Subject code '" + code.trim().toUpperCase() + "' is already used by another subject.");
+            }
+        }
+
         Subject subject = new Subject(id, name.trim(), code.trim().toUpperCase(), courseId);
         subjectDAO.update(subject);
     }

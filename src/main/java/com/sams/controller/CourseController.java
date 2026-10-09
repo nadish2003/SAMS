@@ -198,7 +198,11 @@ public class CourseController implements Initializable {
                 clearCourseForm();
                 loadCourses();
             } catch (SQLException e) {
-                showError("Cannot delete course: " + e.getMessage());
+                if (e.getMessage() != null && e.getMessage().toLowerCase().contains("foreign key")) {
+                    showError("Cannot delete course: Students or classes are currently linked to this course.");
+                } else {
+                    showError("Cannot delete course: " + e.getMessage());
+                }
             }
         }
     }
