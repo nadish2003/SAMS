@@ -132,6 +132,10 @@ public class CourseController implements Initializable {
 
     @FXML
     private void handleSaveCourse(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            showError("Unauthorized: Admin privileges required.");
+            return;
+        }
         String code = courseCodeField.getText();
         String name = courseNameField.getText();
 
@@ -154,6 +158,10 @@ public class CourseController implements Initializable {
 
     @FXML
     private void handleUpdateCourse(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            showError("Unauthorized: Admin privileges required.");
+            return;
+        }
         if (selectedCourse == null) {
             showError("Please select a course from the table to update.");
             return;
@@ -180,6 +188,10 @@ public class CourseController implements Initializable {
 
     @FXML
     private void handleDeleteCourse(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            showError("Unauthorized: Admin privileges required.");
+            return;
+        }
         if (selectedCourse == null) {
             showError("Please select a course to delete.");
             return;
@@ -227,6 +239,10 @@ public class CourseController implements Initializable {
 
     @FXML
     private void handleAddSubject(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            showError("Unauthorized: Admin privileges required.");
+            return;
+        }
         if (selectedCourse == null) {
             showError("Please select a course before adding a subject.");
             return;
@@ -254,6 +270,10 @@ public class CourseController implements Initializable {
 
     @FXML
     private void handleDeleteSubject(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            showError("Unauthorized: Admin privileges required.");
+            return;
+        }
         Subject selectedSubject = subjectTable.getSelectionModel().getSelectedItem();
         if (selectedSubject == null) {
             showError("Please select a subject to delete.");

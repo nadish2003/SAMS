@@ -157,7 +157,15 @@ public class ReportController implements Initializable {
         Integer studentId = selectedStudent != null ? selectedStudent.getId() : null;
         Integer courseId = selectedCourse != null ? selectedCourse.getId() : null;
         Integer subjectId = selectedSubject != null ? selectedSubject.getId() : null;
-        Integer lecturerId = currentLecturer != null ? currentLecturer.getId() : null;
+        Integer lecturerId = null;
+
+        if (Session.isLecturer()) {
+            if (currentLecturer == null) {
+                showError("Access Denied: Lecturer profile required.");
+                return;
+            }
+            lecturerId = currentLecturer.getId();
+        }
 
         try {
             List<AttendanceReportItem> results = reportService.generateAttendanceReport(

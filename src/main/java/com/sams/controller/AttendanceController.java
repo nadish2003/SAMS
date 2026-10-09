@@ -196,6 +196,10 @@ public class AttendanceController implements Initializable {
             showError("Please select a class session first.");
             return;
         }
+        if (currentLecturer == null || currentSession.getLecturerId() != currentLecturer.getId()) {
+            showError("Access Denied: You can only record attendance for your own scheduled classes.");
+            return;
+        }
         if (attendanceList.isEmpty()) {
             showError("No student attendance records to save.");
             return;

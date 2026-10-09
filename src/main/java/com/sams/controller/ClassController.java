@@ -206,6 +206,11 @@ public class ClassController implements Initializable {
 
     @FXML
     private void handleScheduleClass(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            showError("Unauthorized: Only administrators can schedule classes.");
+            return;
+        }
+
         Course course = courseComboBox.getValue();
         Subject subject = subjectComboBox.getValue();
         Lecturer lecturer = lecturerComboBox.getValue();
@@ -234,6 +239,11 @@ public class ClassController implements Initializable {
 
     @FXML
     private void handleUpdateSession(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            showError("Unauthorized: Only administrators can update class schedules.");
+            return;
+        }
+
         if (selectedSession == null) {
             showError("Please select a session from the table to update.");
             return;
@@ -267,6 +277,11 @@ public class ClassController implements Initializable {
 
     @FXML
     private void handleDeleteSession(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            showError("Unauthorized: Only administrators can delete class schedules.");
+            return;
+        }
+
         if (selectedSession == null) {
             showError("Please select a session to delete.");
             return;

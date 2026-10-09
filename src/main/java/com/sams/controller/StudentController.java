@@ -127,6 +127,11 @@ public class StudentController implements Initializable {
 
     @FXML
     private void handleAddStudent(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            showError("Unauthorized: Admin privileges required.");
+            return;
+        }
+
         String name = nameField.getText();
         String regNo = regNoField.getText();
         Course course = courseComboBox.getValue();
@@ -154,6 +159,11 @@ public class StudentController implements Initializable {
 
     @FXML
     private void handleUpdateStudent(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            showError("Unauthorized: Admin privileges required.");
+            return;
+        }
+
         if (selectedStudent == null) {
             showError("Please select a student from the table to update.");
             return;
@@ -186,6 +196,11 @@ public class StudentController implements Initializable {
 
     @FXML
     private void handleDeleteStudent(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            showError("Unauthorized: Admin privileges required.");
+            return;
+        }
+
         if (selectedStudent == null) {
             showError("Please select a student to delete.");
             return;

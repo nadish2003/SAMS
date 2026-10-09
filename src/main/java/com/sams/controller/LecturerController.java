@@ -162,6 +162,11 @@ public class LecturerController implements Initializable {
 
     @FXML
     private void handleAddLecturer(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            showError("Unauthorized: Admin privileges required.");
+            return;
+        }
+
         String name = nameField.getText();
         String email = emailField.getText();
         String phone = phoneField.getText();
@@ -189,6 +194,11 @@ public class LecturerController implements Initializable {
 
     @FXML
     private void handleUpdateLecturer(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            showError("Unauthorized: Admin privileges required.");
+            return;
+        }
+
         if (selectedLecturer == null) {
             showError("Please select a lecturer from the table to update.");
             return;
@@ -217,6 +227,11 @@ public class LecturerController implements Initializable {
 
     @FXML
     private void handleDeleteLecturer(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            showError("Unauthorized: Admin privileges required.");
+            return;
+        }
+
         if (selectedLecturer == null) {
             showError("Please select a lecturer to delete.");
             return;
@@ -268,6 +283,11 @@ public class LecturerController implements Initializable {
 
     @FXML
     private void handleAssignSubject(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            showError("Unauthorized: Admin privileges required.");
+            return;
+        }
+
         if (selectedLecturer == null) {
             showError("Please select a lecturer first before assigning a subject.");
             return;
@@ -292,6 +312,11 @@ public class LecturerController implements Initializable {
 
     @FXML
     private void handleUnassignSubject(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            showError("Unauthorized: Admin privileges required.");
+            return;
+        }
+
         if (selectedLecturer == null) {
             showError("Please select a lecturer first.");
             return;

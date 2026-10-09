@@ -97,6 +97,10 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void handleCourses(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            statusLabel.setText("Access denied: Admin privileges required.");
+            return;
+        }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/courses.fxml"));
             Parent root = loader.load();
@@ -113,6 +117,10 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void handleStudents(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            statusLabel.setText("Access denied: Admin privileges required.");
+            return;
+        }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/students.fxml"));
             Parent root = loader.load();
@@ -129,6 +137,10 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void handleLecturers(ActionEvent event) {
+        if (!Session.isAdmin()) {
+            statusLabel.setText("Access denied: Admin privileges required.");
+            return;
+        }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/lecturers.fxml"));
             Parent root = loader.load();
@@ -161,6 +173,10 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void handleAttendance(ActionEvent event) {
+        if (!Session.isLecturer()) {
+            statusLabel.setText("Access denied: Lecturer privileges required.");
+            return;
+        }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/attendance.fxml"));
             Parent root = loader.load();
