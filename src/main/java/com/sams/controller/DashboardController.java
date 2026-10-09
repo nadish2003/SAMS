@@ -177,7 +177,18 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void handleReports(ActionEvent event) {
-        statusLabel.setText("Attendance Reports module: Coming soon.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/reports.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 1020, 660);
+            scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setTitle("SAMS - Attendance Reports");
+            stage.show();
+        } catch (IOException e) {
+            statusLabel.setText("Error loading reports screen: " + e.getMessage());
+        }
     }
 
     @FXML
