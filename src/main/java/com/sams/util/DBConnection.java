@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class DBConnection {
 
     // ── Change these three values to match your local MySQL setup ──
-    private static final String DB_URL      = "jdbc:mysql://localhost:3306/sams_db?useSSL=false&serverTimezone=UTC";
+    private static final String DB_URL      = "jdbc:mysql://localhost:3306/sams_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String DB_USER     = "root";
     private static final String DB_PASSWORD = "root";
     // ───────────────────────────────────────────────────────────────
